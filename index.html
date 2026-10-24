@@ -1,1 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DigiTech Ecosystem — Connect. Innovate. Grow.</title>
+<meta name="description" content="DigiTech Ecosystem is a student-led digital services and technology education startup.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== 1. DESIGN TOKENS — change colours/fonts only here ===== */
+:root{
+  --brand-bg:#080810;      /* Primary */
+  --brand-lime:#C6FF4D;    /* Secondary */
+  --bg:#080810; --surface:#101019; --surface-2:#171722;
+  --border:#2a2a38; --text:#f2f2f6; --muted:#a3a3b5;
+  --accent:#C6FF4D;        /* lime used as text/icons */
+  --on-accent:#080810;     /* text placed on lime */
+  --font-head:"Space Grotesk",system-ui,sans-serif;
+  --font-body:"Inter",system-ui,sans-serif;
+  --radius:16px;
+  --purple:#8B3DFF;        /* Electric Purple */
+  --purple-soft:rgba(139,61,255,.18);
+  --glass:rgba(26,18,52,.55); --glass-line:rgba(255,255,255,.13);
+}
+[data-theme="light"]{
+  --glass:rgba(255,255,255,.7); --glass-line:rgba(8,8,16,.14); --purple-soft:rgba(139,61,255,.12);
+  --bg:#f5f5f8; --surface:#ffffff; --surface-2:#ececf1;
+  --border:#d4d4de; --text:#080810; --muted:#50505f;
+  --accent:#080810;        /* lime is too pale as text on light, so use dark text + lime highlights */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:110px}
+/* futuristic grid overlay */
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(139,61,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(139,61,255,.08) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:linear-gradient(#000,transparent 70%);mask-image:linear-gradient(#000,transparent 70%)}
+body{background:radial-gradient(60rem 40rem at 85% -10%,rgba(139,61,255,.38),transparent 60%),radial-gradient(45rem 35rem at -10% 45%,rgba(139,61,255,.2),transparent 60%),var(--bg);background-attachment:fixed;color:var(--text);font:400 1rem/1.65 var(--font-body);overflow-x:hidden}
+h1,h2,h3{font-family:var(--font-head);line-height:1.1;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+:focus-visible{outline:2px solid var(--brand-lime);outline-offset:3px;border-radius:6px}
+[data-theme="light"] :focus-visible{outline-color:var(--brand-bg)}
+.hl{color:var(--accent)}
+[data-theme="light"] .hl{background:var(--brand-lime);color:var(--brand-bg);padding:0 .15em;border-radius:6px}
+.label{font:500 .8rem var(--font-head);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:block}
+.skip{position:absolute;left:-999px;top:8px;background:var(--brand-lime);color:var(--brand-bg);padding:8px 14px;border-radius:8px;z-index:100}
+.skip:focus{left:8px}
 
+/* ===== 2. TOP NAVBAR (glass) ===== */
+.nav-wrap{position:sticky;top:0;z-index:60;padding:12px clamp(12px,3vw,32px)}
+.bar{position:relative;display:flex;align-items:center;gap:14px;max-width:1280px;margin:0 auto;padding:10px 14px;border-radius:20px;background:var(--glass);border:1px solid var(--glass-line);-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);box-shadow:0 10px 40px rgba(139,61,255,.22)}
+.logo{display:flex;flex:none;background:#fff;border-radius:12px;padding:5px 10px}
+.logo img{height:38px;width:auto;display:block}
+.links{display:flex;align-items:center;gap:2px}
+.links a{padding:9px 12px;border-radius:10px;color:var(--muted);font:500 .92rem var(--font-body);white-space:nowrap}
+.links a:hover{color:var(--text);background:var(--purple-soft)}
+.links a.active{color:var(--accent);background:var(--purple-soft);box-shadow:inset 0 -2px 0 var(--brand-lime)}
+[data-theme="light"] .links a.active{box-shadow:inset 0 -2px 0 var(--brand-bg)}
+.search{position:relative;flex:1;min-width:150px;max-width:300px;margin-left:auto}
+.search>svg{position:absolute;left:14px;top:50%;margin-top:-10px;color:var(--muted);pointer-events:none}
+.search input{width:100%;padding:10px 14px 10px 42px;border-radius:999px;border:1px solid var(--glass-line);background:rgba(139,61,255,.1);color:var(--text);font:400 .92rem var(--font-body)}
+.search input::placeholder{color:var(--muted)}
+.search input:focus{outline:none;border-color:var(--brand-lime);box-shadow:0 0 0 3px rgba(139,61,255,.55)}
+.results{position:absolute;top:calc(100% + 8px);left:0;right:0;list-style:none;padding:6px;border-radius:14px;background:var(--surface);border:1px solid var(--glass-line);box-shadow:0 20px 50px rgba(0,0,0,.45);z-index:5}
+.results[hidden]{display:none}
+.results a{display:block;padding:10px 12px;border-radius:10px;font-weight:500}
+.results a:hover,.results a:focus-visible{background:var(--purple-soft)}
+.results small{display:block;color:var(--muted);font-weight:400}
+.results .none{padding:10px 12px;color:var(--muted);font-size:.9rem}
+.actions{display:flex;align-items:center;gap:8px}
+.chip.menu-btn{display:none}
+.card.match{border-color:var(--brand-lime);box-shadow:0 0 0 3px var(--brand-lime),0 0 50px rgba(139,61,255,.7)}
+
+/* ===== 3. MAIN LAYOUT ===== */
+.wrap{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid var(--glass-line);border-radius:999px;font-size:.88rem;background:var(--purple-soft);font-family:var(--font-body);color:var(--text);cursor:pointer}
+.chip:hover{border-color:var(--brand-lime);box-shadow:0 0 20px rgba(139,61,255,.5)}
+[data-theme="light"] .chip:hover{border-color:var(--brand-bg)}
+section{padding:clamp(56px,8vw,104px) 0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;font:600 .95rem var(--font-body);border:1px solid transparent;transition:transform .2s,background .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--brand-lime);color:var(--brand-bg)}
+.btn-ghost{border-color:var(--border);color:var(--text)}
+.btn-ghost:hover{border-color:var(--brand-lime);color:var(--accent)}
+
+/* ===== 4. HERO ===== */
+.hero{padding-top:clamp(24px,5vw,56px)}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,6vw,4.9rem);font-weight:700;margin-bottom:22px}
+.hero p{color:var(--muted);max-width:52ch;margin-bottom:32px;font-size:1.08rem}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+/* orbital illustration: pure CSS */
+.orbit{position:relative;width:min(100%,420px);aspect-ratio:1;margin:auto;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:42px 42px;border-radius:24px;border:1px solid var(--border);
+  -webkit-mask-image:radial-gradient(circle,#000 55%,transparent 100%);mask-image:radial-gradient(circle,#000 55%,transparent 100%)}
+.ring{position:absolute;inset:50%;border:1px solid var(--muted);border-radius:50%;transform:translate(-50%,-50%);opacity:.6}
+.r1{width:38%;height:38%}.r2{width:66%;height:66%;border-color:var(--purple);opacity:1;box-shadow:0 0 40px rgba(139,61,255,.5),inset 0 0 40px rgba(139,61,255,.25)}.r3{width:94%;height:94%}
+.spin{position:absolute;inset:0;animation:spin 28s linear infinite}
+.spin.rev{animation-duration:42s;animation-direction:reverse}
+.spin i{position:absolute;top:17%;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--brand-lime)}
+.spin.rev i{top:3%;width:9px;height:9px;background:var(--text)}
+.core{position:absolute;inset:50%;width:16%;height:16%;transform:translate(-50%,-50%);background:var(--purple);box-shadow:0 0 60px rgba(139,61,255,.75);border-radius:30%;display:grid;place-items:center;color:var(--brand-lime);font:700 1.4rem var(--font-head)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== 5. FEATURED SECTIONS ===== */
+.head{max-width:640px;margin-bottom:44px}
+.head h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:14px}
+.head p{color:var(--muted)}
+.feature{background:linear-gradient(180deg,var(--purple-soft),transparent);border-block:1px solid var(--glass-line)}
+.grid{display:grid;gap:20px}
+.grid.four{grid-template-columns:repeat(2,1fr)}
+.grid.three{grid-template-columns:repeat(3,1fr)}
+.card{position:relative;display:flex;flex-direction:column;gap:12px;padding:28px;background:var(--glass);border:1px solid var(--glass-line);-webkit-backdrop-filter:blur(16px) saturate(140%);backdrop-filter:blur(16px) saturate(140%);border-radius:var(--radius);transition:transform .25s,border-color .25s,box-shadow .25s}
+.card:hover,.card:focus-within{transform:translateY(-6px);border-color:var(--brand-lime);box-shadow:0 14px 44px rgba(139,61,255,.45)}
+[data-theme="light"] .card:hover,[data-theme="light"] .card:focus-within{border-color:var(--brand-bg);box-shadow:none}
+.card .ico{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:var(--purple-soft);border:1px solid var(--purple);color:var(--accent);box-shadow:0 0 18px rgba(139,61,255,.35)}
+.card .ico svg{width:26px;height:26px}
+.card h3{font-size:1.3rem}
+.card p{color:var(--muted);font-size:.95rem;flex:1}
+.card .more{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-weight:600;font-size:.92rem;width:fit-content}
+.card .more::after{content:"";position:absolute;inset:0;border-radius:var(--radius)} /* makes whole card clickable */
+.card .more svg{transition:transform .2s}.card:hover .more svg{transform:translateX(4px)}
+/* Skills cards: distinct look = lime top bar + tag */
+.course{border-top:4px solid var(--brand-lime)}
+[data-theme="light"] .course{border-top-color:var(--brand-bg)}
+.tag{width:fit-content;font:500 .78rem var(--font-head);letter-spacing:.06em;padding:4px 12px;border-radius:999px;border:1px solid var(--brand-lime);color:var(--accent)}
+[data-theme="light"] .tag{border-color:var(--brand-bg)}
+.my-courses{margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:22px 26px;border:1px dashed var(--brand-lime);border-radius:var(--radius);background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+[data-theme="light"] .my-courses{border-color:var(--brand-bg)}
+.my-courses p{flex:1;min-width:220px;color:var(--muted)}
+
+/* ===== 6. ABOUT ===== */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.about h2{font-size:clamp(2rem,4vw,2.8rem);margin-bottom:16px}
+.about p{color:var(--muted)}
+.lead-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.person{padding:18px;border:1px solid var(--border);border-radius:var(--radius);background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.person strong{display:block;font-family:var(--font-head);font-size:1.05rem}
+.person span{color:var(--accent);font-size:.85rem}
+.support{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.support li{padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:.93rem}
+.team-title{font:600 .85rem var(--font-head);color:var(--muted);margin:22px 0 10px;letter-spacing:.08em;text-transform:uppercase}
+
+/* ===== 7. PROCESS / PROJECTS / CONTACT ===== */
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:s}
+.steps li{counter-increment:s;padding:24px 24px 0 0;border-top:2px solid var(--border);position:relative}
+.steps li::before{content:"";position:absolute;top:-6px;left:0;width:10px;height:10px;border-radius:50%;background:var(--brand-lime)}
+[data-theme="light"] .steps li::before{background:var(--brand-bg)}
+.steps h3{font-size:1.25rem;margin-bottom:6px}.steps p{color:var(--muted);font-size:.92rem}
+.ph{min-height:180px;justify-content:flex-end;background:repeating-linear-gradient(135deg,var(--surface-2) 0 12px,var(--surface) 12px 24px)}
+.contact{text-align:center;border:1px solid var(--glass-line);background:linear-gradient(135deg,var(--purple-soft),var(--glass));-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-radius:24px;padding:clamp(36px,6vw,72px) 24px}
+.contact h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:12px}
+.contact p{color:var(--muted);margin:0 auto 24px;max-width:50ch}
+footer{border-top:1px solid var(--border);padding:32px 0}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;color:var(--muted);font-size:.9rem}
+footer nav{display:flex;flex-wrap:wrap;gap:18px}
+footer a:hover{color:var(--accent)}
+footer .logo img{height:44px}
+
+/* ===== 8. RESPONSIVE ===== */
+@media(max-width:1000px){.steps{grid-template-columns:1fr 1fr;gap:28px 0}.grid.three{grid-template-columns:1fr 1fr}}
+@media(max-width:1100px){
+  .chip.menu-btn{display:inline-flex}
+  .links{display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;flex-direction:column;align-items:stretch;padding:10px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--glass-line);box-shadow:0 20px 50px rgba(0,0,0,.45)}
+  body.open .links{display:flex}
+  .bar{flex-wrap:wrap}
+  .actions{margin-left:auto}
+  .search{order:5;flex:1 1 100%;max-width:none;margin:0}
+}
+@media(max-width:860px){
+  .hero .wrap,.about{grid-template-columns:1fr}
+  .orbit{max-width:320px}
+}
+@media(max-width:600px){.hide-s{display:none}.logo img{height:32px}.grid.four,.grid.three,.steps,.lead-row,.support{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ===== TOP NAVBAR ===== -->
+<header class="nav-wrap">
+  <div class="bar">
+    <a class="logo" href="#home" aria-label="DigiTech home"><img src="assets/logo.png" alt="DigiTech — One Connected Stack For Growing Businesses"></a>
+    <nav class="links" id="links" aria-label="Main">
+      <a href="#home" class="active">Home</a><a href="#services">IT Services</a><a href="#skills">Skills</a><a href="#about">About Us</a><a href="#contact">Help</a>
+    </nav>
+    <form class="search" id="searchForm" role="search" autocomplete="off">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+      <input id="q" type="search" placeholder="Search courses  ( / )" aria-label="Search courses" aria-controls="results">
+      <ul class="results" id="results" hidden></ul>
+    </form>
+    <div class="actions">
+      <button class="chip" id="themeBtn" aria-label="Switch to light appearance"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg><span id="themeTxt" class="hide-s">Light</span></button>
+      <a class="chip" href="login.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l4 4-4 4M14 12H3"/></svg><span class="hide-s">Login</span></a>
+      <a class="chip" href="profile.html" aria-label="Profile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></a>
+      <button class="chip menu-btn" id="menuBtn" aria-controls="links" aria-expanded="false" aria-label="Menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div>
+      <span class="label">Student-led · Future-ready</span>
+      <h1>Turning <span class="hl">Ideas</span> Into <span class="hl">Digital</span> Reality.</h1>
+      <p>We bring technology, creativity, and practical learning together to help businesses grow and future professionals build their skills.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#services">Explore IT Services</a>
+        <a class="btn btn-ghost" href="#skills">Discover DigiTech Skills</a>
+      </div>
+    </div>
+    <div class="orbit" role="img" aria-label="Abstract orbital illustration">
+      <div class="ring r3"></div><div class="ring r2"></div><div class="ring r1"></div>
+      <div class="spin"><i></i></div><div class="spin rev"><i></i></div>
+      <div class="core">D</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION A: IT SERVICES ===== -->
+<section class="feature" id="services">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">What we build</span>
+      <h2>Digital Solutions That Move You <span class="hl">Forward.</span></h2>
+      <p>From websites to custom software, we help turn ideas into useful digital products.</p>
+    </div>
+    <div class="grid four">
+      <article class="card">
+        <div class="ico"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div>
+        <h3>Website Development</h3>
+        <p>Fast, responsive websites built to present your business clearly online.</p>
+        <a class="more" href="#contact">Explore Service <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="card">
+        <div class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg></div>
+        <h3>Software Solutions</h3>
+        <p>Custom software made around the way your business actually works.</p>
+        <a class="more" href="#contact">Explore Service <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="card">
+        <div class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M12 20l8-8-5-5-8 8-1 6zM14 6l4 4"/></svg></div>
+        <h3>UI/UX Design</h3>
+        <p>Clean, easy-to-use interfaces designed around the people who will use them.</p>
+        <a class="more" href="#contact">Explore Service <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="card">
+        <div class="ico"><svg class="i" viewBox="0 0 24 24"><path d="M14.5 6a4 4 0 00-5 5L3 17.5 6.5 21l6.5-6.5a4 4 0 005-5l-2.5 2.5-2-.5-.5-2z"/></svg></div>
+        <h3>IT Support &amp; Digital Services</h3>
+        <p>Practical help with everyday technology and digital tasks.</p>
+        <a class="more" href="#contact">Explore Service <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION B: SKILLS ===== -->
+<section id="skills">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Learn. Build. Grow.</span>
+      <h2>Skills for the Digital <span class="hl">Future.</span></h2>
+      <p>Learn practical technology skills and build confidence through hands-on learning.</p>
+    </div>
+    <div class="grid three">
+      <article class="card course">
+        <span class="tag">Security</span>
+        <h3>Cybersecurity</h3>
+        <p>Understand how to protect systems, data, and people online.</p>
+        <a class="more" href="login.html">Explore Courses <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="card course">
+        <span class="tag">Programming</span>
+        <h3>Python Programming</h3>
+        <p>Learn to write Python and solve real problems with code.</p>
+        <a class="more" href="login.html">Explore Courses <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="card course">
+        <span class="tag">Foundations</span>
+        <h3>Digital Skills</h3>
+        <p>Build the everyday digital skills needed for study and work.</p>
+        <a class="more" href="login.html">Explore Courses <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+    </div>
+    <div class="my-courses">
+      <svg class="i" viewBox="0 0 24 24" style="color:var(--accent);width:28px;height:28px"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>
+      <p><strong style="color:var(--text)">Recorded Courses</strong><br>Already enrolled? Log in to open your courses.</p>
+      <a class="btn btn-primary" href="login.html">My Courses</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="feature" id="about">
+  <div class="wrap about">
+    <div>
+      <span class="label">About us</span>
+      <h2>A student-led <span class="hl">ecosystem.</span></h2>
+      <p>DigiTech Ecosystem is a student-led initiative focused on digital services, innovation, technology education, and practical skill development.</p>
+    </div>
+    <div>
+      <div class="lead-row">
+        <div class="person"><strong>Dipak Suryawanshi</strong><span>Founder &amp; CEO</span></div>
+        <div class="person"><strong>Yash Suryawanshi</strong><span>Managing Director</span></div>
+      </div>
+      <p class="team-title">Support team</p>
+      <ul class="support">
+        <li>Avishkar Sakhare</li><li>Shreyash Chaudhari</li><li>Pranav Mahajan</li><li>Aditya Kuthalkar</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW WE WORK ===== -->
+<section id="process">
+  <div class="wrap">
+    <div class="head"><span class="label">How we work</span><h2>Discover. Plan. Build. Deliver.</h2></div>
+    <ol class="steps">
+      <li><h3>Discover</h3><p>We listen and understand what you need.</p></li>
+      <li><h3>Plan</h3><p>We map out the solution and the steps.</p></li>
+      <li><h3>Build</h3><p>We design and develop it.</p></li>
+      <li><h3>Deliver</h3><p>We hand over the result and support you.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===== PROJECTS (placeholders) ===== -->
+<section class="feature" id="projects">
+  <div class="wrap">
+    <div class="head"><span class="label">Featured projects</span><h2>Our work, <span class="hl">coming soon.</span></h2><p>Placeholders — real projects will appear here once supplied.</p></div>
+    <div class="grid three">
+      <div class="card ph"><span class="tag">Placeholder</span><h3>Project 1</h3></div>
+      <div class="card ph"><span class="tag">Placeholder</span><h3>Project 2</h3></div>
+      <div class="card ph"><span class="tag">Placeholder</span><h3>Project 3</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact">
+      <span class="label">Get in touch</span>
+      <h2>Have an idea? <span class="hl">Let's build it.</span></h2>
+      <p id="contactText">Contact details will be added here once confirmed.</p>
+      <div id="contactBtn"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#home" aria-label="DigiTech home"><img src="assets/logo.png" alt="DigiTech logo"></a>
+    <span>© <span id="yr"></span> DigiTech Ecosystem · Connect. Innovate. Grow.</span>
+    <nav aria-label="Footer">
+      <a href="#home">Home</a><a href="#services">IT Services</a><a href="#skills">Skills</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </nav>
+    <!-- Social links: add Instagram, YouTube and WhatsApp Channel only when you have the real URLs -->
+  </div>
+</footer>
+
+<script>
+/* ===== CONFIG — fill these in when confirmed ===== */
+const CONTACT_EMAIL = "";   // e.g. "hello@yourdomain.com" (leave empty until approved)
+
+const body = document.body, menuBtn = document.getElementById('menuBtn');
+
+/* Mobile menu */
+function setDrawer(open){ body.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', open); }
+menuBtn.addEventListener('click', () => setDrawer(!body.classList.contains('open')));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') setDrawer(false); });
+document.querySelectorAll('.links a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
+
+/* Course search — filters the courses listed in the Skills section */
+const COURSES = [
+  { n: 'Cybersecurity',      t: 'Security',    k: 'cyber security protect network' },
+  { n: 'Python Programming', t: 'Programming', k: 'python code coding' },
+  { n: 'Digital Skills',     t: 'Foundations', k: 'digital computer basics' }
+];
+const q = document.getElementById('q'), res = document.getElementById('results');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const find = v => { v = v.trim().toLowerCase(); return v ? COURSES.filter(c => (c.n + ' ' + c.t + ' ' + c.k).toLowerCase().includes(v)) : []; };
+function render(){
+  if (!q.value.trim()) { res.hidden = true; return; }
+  const m = find(q.value);
+  res.innerHTML = m.length
+    ? m.map(c => '<li><a href="#skills" data-c="' + c.n + '">' + c.n + '<small>' + c.t + ' course</small></a></li>').join('')
+    : '<li class="none">No course found. Try "Python" or "Cyber".</li>';
+  res.hidden = false;
+}
+function go(name){
+  const card = [...document.querySelectorAll('.course')].find(c => c.querySelector('h3').textContent === name);
+  res.hidden = true; q.value = '';
+  if (card){ card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); card.classList.add('match'); setTimeout(() => card.classList.remove('match'), 2200); }
+}
+q.addEventListener('input', render);
+res.addEventListener('click', e => { const a = e.target.closest('a[data-c]'); if (a){ e.preventDefault(); go(a.dataset.c); } });
+document.getElementById('searchForm').addEventListener('submit', e => { e.preventDefault(); const m = find(q.value); if (m[0]) go(m[0].n); });
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && !/input|textarea/i.test(document.activeElement.tagName)){ e.preventDefault(); q.focus(); }
+  if (e.key === 'Escape') res.hidden = true;
+});
+document.addEventListener('click', e => { if (!e.target.closest('.search')) res.hidden = true; });
+
+/* Theme toggle (dark is default; choice remembered if storage is available) */
+const root = document.documentElement, themeBtn = document.getElementById('themeBtn'), themeTxt = document.getElementById('themeTxt');
+function applyTheme(t){
+  root.dataset.theme = t;
+  themeTxt.textContent = t === 'dark' ? 'Light' : 'Dark';
+  themeBtn.setAttribute('aria-label', 'Switch to ' + (t === 'dark' ? 'light' : 'dark') + ' appearance');
+}
+try { applyTheme(localStorage.getItem('dt-theme') || 'dark'); } catch(e) { applyTheme('dark'); }
+themeBtn.addEventListener('click', () => {
+  const t = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(t);
+  try { localStorage.setItem('dt-theme', t); } catch(e) {}
+});
+
+/* Highlight the active sidebar link while scrolling */
+const links = [...document.querySelectorAll('.links a')];
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+links.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if (s) io.observe(s); });
+
+/* Contact button appears only when an email is set */
+if (CONTACT_EMAIL){
+  document.getElementById('contactText').textContent = 'Tell us about your project or the skills you want to learn.';
+  document.getElementById('contactBtn').innerHTML = '<a class="btn btn-primary" href="mailto:' + CONTACT_EMAIL + '">Email DigiTech</a>';
+}
+document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
