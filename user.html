@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Profile — DigiTech Ecosystem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Design tokens (same brand colours as index.html and login.html) ===== */
+:root{
+  --bg:#080810; --card:#101019; --field:#0b0b14; --band:#171722; --line:#2a2a38;
+  --text:#f2f2f6; --muted:#a3a3b5; --lime:#C6FF4D; --on-lime:#080810; --error:#ff9b9b;
+  --logo:url("__LOGO__"); /* your logo, embedded so no file path is needed */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font:400 1rem/1.55 "Inter",system-ui,sans-serif;min-height:100vh}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--lime);outline-offset:2px;border-radius:8px}
+[hidden]{display:none!important}
+.muted{color:var(--muted)}
+
+/* top bar */
+.top{display:flex;align-items:center;gap:22px;max-width:1080px;margin:0 auto;padding:16px}
+.logo{display:inline-block;background:#fff;border-radius:10px;padding:6px 10px}
+.logo i{display:block;height:28px;aspect-ratio:4.96;background:var(--logo) center/contain no-repeat}
+.top nav{display:flex;gap:4px;margin-right:auto}
+.top nav a{padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:.92rem;font-weight:500}
+.top nav a:hover{color:var(--text);background:var(--card)}
+
+/* layout */
+.wrap{display:grid;grid-template-columns:320px 1fr;gap:20px;max-width:1080px;margin:0 auto;padding:8px 16px 56px;align-items:start}
+.side{position:sticky;top:16px;display:grid;gap:16px}
+.main{display:grid;gap:16px;min-width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card h2{font-size:1.05rem;font-weight:600}
+.head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.notice{max-width:1048px;margin:0 auto 14px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--lime);border-radius:10px;background:var(--field);color:var(--muted);font-size:.88rem}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--text);font:600 .9rem "Inter",sans-serif;cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s}
+.btn:hover{border-color:#4a4a5e;background:#171722}
+.btn.primary{background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
+.btn.primary:hover{background:#d4ff77;border-color:#d4ff77}
+.btn.sm{height:34px;padding:0 12px;font-size:.84rem}
+.btn.block{width:100%}
+.ghost{border:0;background:none;color:var(--muted);font:500 .84rem "Inter",sans-serif;cursor:pointer;padding:4px 8px;border-radius:6px}
+.ghost:hover{color:var(--text);background:var(--band)}
+.ghost.danger:hover{color:var(--error)}
+.link{border:0;background:none;color:var(--lime);font:500 .84rem "Inter",sans-serif;cursor:pointer;padding:0}
+.link:hover{text-decoration:underline}
+
+/* identity card */
+.ident{padding:0;overflow:hidden}
+.band{height:76px;background:var(--band)}
+.ident .in{padding:0 22px 22px;margin-top:-34px}
+.avatar{width:68px;height:68px;border-radius:50%;background:var(--lime);color:var(--on-lime);border:4px solid var(--card);display:grid;place-items:center;font-size:1.7rem;font-weight:700}
+.ident h1{font-size:1.35rem;font-weight:700;letter-spacing:-.01em;margin-top:10px;line-height:1.25}
+.ident .head2{color:var(--muted);font-size:.95rem}
+.small{color:var(--muted);font-size:.85rem;margin-top:8px;word-break:break-all}
+.badge{display:inline-block;margin-left:6px;padding:1px 8px;border:1px solid var(--line);border-radius:999px;font-size:.72rem;color:var(--lime)}
+.links{display:flex;flex-wrap:wrap;gap:6px 14px;margin:12px 0 16px}
+.links a{color:var(--lime);font-size:.88rem;text-decoration:none}
+.links a:hover{text-decoration:underline}
+
+/* completeness */
+.meter{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.meter b{font-size:1.2rem}
+.track{height:8px;border-radius:99px;background:#1d1d29;overflow:hidden}
+.fill{height:100%;background:var(--lime);border-radius:99px;transition:width .4s}
+.todo{list-style:none;margin-top:12px;display:grid;gap:6px;font-size:.88rem;color:var(--muted)}
+.todo li::before{content:"+";color:var(--lime);font-weight:700;margin-right:8px}
+.todo li.ok::before{content:"";margin:0}
+.acct{display:grid;gap:8px}
+
+/* content */
+.bio{white-space:pre-line}
+.empty{color:var(--muted);font-size:.92rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chips:empty{display:none}
+.chip{padding:4px 12px;border:1px solid var(--line);border-radius:999px;background:var(--field);font-size:.82rem}
+.list{list-style:none;display:grid;gap:0}
+.item{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:0;padding-top:2px}
+.item h3{font-size:1rem;font-weight:600}
+.item h3 a{text-decoration:none}.item h3 a:hover{color:var(--lime)}
+.item p{font-size:.92rem;margin-top:4px}
+.item .meta{color:var(--muted);font-size:.86rem;margin-top:2px}
+.item .chips{margin-top:10px}
+.iact{display:flex;align-items:flex-start;gap:2px;flex:none}
+.course{padding:14px 0;border-top:1px solid var(--line)}
+.course:first-child{border-top:0;padding-top:2px}
+.ctop{display:flex;justify-content:space-between;margin-bottom:8px}
+.pc{color:var(--muted);font-size:.88rem}
+
+/* dialog form */
+dialog{margin:auto;width:min(520px,calc(100% - 32px));background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:24px}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+dialog h2{font-size:1.2rem;margin-bottom:16px}
+.fld{margin-bottom:14px}
+label{display:block;font-size:.85rem;font-weight:500;margin-bottom:6px}
+input,textarea{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--field);color:var(--text);font:400 .96rem "Inter",sans-serif}
+textarea{resize:vertical}
+input:focus,textarea:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px rgba(198,255,77,.22)}
+.hint{color:var(--muted);font-size:.8rem;margin-top:6px}
+.err{color:var(--error);font-size:.88rem;min-height:1.3em}
+.acts{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);padding:11px 18px;border-radius:10px;background:var(--lime);color:var(--on-lime);font-weight:600;font-size:.9rem;opacity:0;pointer-events:none;transition:.25s;z-index:20}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.bad{background:var(--error)}
+
+@media(max-width:860px){.wrap{grid-template-columns:1fr}.side{position:static}.top nav{display:none}.top{justify-content:space-between}.logo{margin-right:auto}}
+@media(max-width:480px){.item{flex-direction:column;gap:6px}.card{padding:18px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="index.html" aria-label="DigiTech Ecosystem home"><i role="img" aria-label="DigiTech"></i></a>
+  <nav aria-label="Main"><a href="index.html">Home</a><a href="index.html#skills">Courses</a><a href="index.html#about">About</a></nav>
+  <button class="btn sm" id="logout" type="button">Log out</button>
+</header>
+
+<div class="notice" id="notice" hidden></div>
+<p class="muted" id="loading" style="text-align:center;padding:60px 0">Loading your profile…</p>
+
+<main class="wrap" id="app" hidden>
+  <aside class="side">
+    <section class="card ident" aria-label="Profile summary">
+      <div class="band"></div>
+      <div class="in">
+        <div class="avatar" id="avatar" aria-hidden="true"></div>
+        <h1 id="pName"></h1>
+        <p class="head2" id="pHead"></p>
+        <p class="small" id="pLoc"></p>
+        <p class="small"><span id="pEmail"></span><span class="badge" id="verified" hidden>Verified</span> <button class="link" id="verifyBtn" type="button" hidden>Verify email</button></p>
+        <p class="small" id="since"></p>
+        <div class="links" id="links"></div>
+        <button class="btn primary block" id="editProfile" type="button">Edit profile</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="cmpTitle">
+      <div class="meter"><h2 id="cmpTitle">Profile strength</h2><b id="pct">0%</b></div>
+      <div class="track" id="barwrap" role="progressbar" aria-labelledby="cmpTitle" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="bar" style="width:0"></div></div>
+      <ul class="todo" id="todo"></ul>
+    </section>
+
+    <section class="card acct" aria-label="Account">
+      <button class="btn block" id="resetPw" type="button">Send password reset email</button>
+    </section>
+  </aside>
+
+  <div class="main">
+    <section class="card" id="about" aria-labelledby="aboutT">
+      <div class="head"><h2 id="aboutT">About</h2><button class="btn sm" id="editAbout" type="button">Edit</button></div>
+      <p class="bio" id="bio"></p>
+      <p class="empty" id="bioEmpty">Tell people who you are and what you want to build or learn.</p>
+      <div class="chips" id="skills"></div>
+    </section>
+
+    <section class="card" id="courses" aria-labelledby="courseT">
+      <div class="head"><h2 id="courseT">My courses</h2><a class="btn sm" href="index.html#skills">Browse courses</a></div>
+      <ul class="list" id="courseList"></ul>
+      <p class="empty" id="courseEmpty">You haven't started a course yet. Pick one from the Skills section to begin.</p>
+    </section>
+
+    <section class="card" id="work" aria-labelledby="workT">
+      <div class="head"><h2 id="workT">Work experience</h2><button class="btn sm" data-add="experience" type="button">Add</button></div>
+      <ul class="list" id="expList"></ul>
+      <p class="empty" id="expListEmpty">No work added yet. Include jobs, internships, freelance or volunteer work.</p>
+    </section>
+
+    <section class="card" id="projects" aria-labelledby="projT">
+      <div class="head"><h2 id="projT">Projects</h2><button class="btn sm" data-add="projects" type="button">Add</button></div>
+      <ul class="list" id="projList"></ul>
+      <p class="empty" id="projListEmpty">Show what you've built. Add a project with a short description and a link.</p>
+    </section>
+  </div>
+</main>
+
+<dialog id="dlg" aria-labelledby="dTitle"><h2 id="dTitle"></h2><form id="form" novalidate></form></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* =====================================================================
+   SETUP — same Firebase project as login.html:
+   1. Paste the same firebaseConfig values below.
+   2. Firebase console → Build → Firestore Database → Create database.
+   3. Firestore → Rules → allow each user to read/write only their own document:
+        rules_version = '2';
+        service cloud.firestore {
+          match /databases/{db}/documents {
+            match /users/{uid} { allow read, write: if request.auth != null && request.auth.uid == uid; }
+          }
+        }
+   Open the page through a web server (e.g. VS Code "Live Server"), not file://.
+   Until you add the keys, the page runs in PREVIEW mode with sample data that is not saved.
+   ===================================================================== */
+const firebaseConfig = { apiKey: "", authDomain: "", projectId: "", appId: "" };
+const LOGIN_PAGE = "login.html";
+const SDK = "https://www.gstatic.com/firebasejs/10.14.1/";
+
+const $ = id => document.getElementById(id);
+let fb = null, user = null, P = null, demo = false;
+const EMPTY = () => ({ name:'', headline:'', location:'', bio:'', skills:[], github:'', linkedin:'', website:'', experience:[], projects:[], courses:[] });
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+
+/* Build DOM safely: user text is only ever set with textContent, never innerHTML */
+function h(tag, props = {}, ...kids){
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)){
+    if (k === 'class') e.className = v; else if (k === 'text') e.textContent = v;
+    else if (k.startsWith('on')) e[k] = v; else e.setAttribute(k, v);
+  }
+  kids.flat().forEach(c => c != null && e.append(c));
+  return e;
+}
+/* Only allow http(s) links, so nobody can save a "javascript:" link */
+function safeUrl(v){
+  v = (v || '').trim(); if (!v) return '';
+  try { const u = new URL(/^https?:\/\//i.test(v) ? v : 'https://' + v); return /^https?:$/.test(u.protocol) && u.hostname.includes('.') ? u.href : ''; }
+  catch (_) { return ''; }
+}
+const tagList = s => [...new Set(String(s).split(',').map(t => t.trim().slice(0, 30)).filter(Boolean))].slice(0, 15);
+let tt; function toast(t, bad){ const el = $('toast'); el.textContent = t; el.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(tt); tt = setTimeout(() => el.className = 'toast', 2800); }
+
+/* ---------- saving ---------- */
+async function commit(msg){
+  render();
+  if (demo) return toast('Preview mode: not saved');
+  try { await fb.F.setDoc(fb.F.doc(fb.db, 'users', user.uid), { ...P, updatedAt: fb.F.serverTimestamp() }, { merge: true }); toast(msg || 'Saved'); }
+  catch (e) { toast("Couldn't save. Check your connection and Firestore rules.", true); }
+}
+
+/* ---------- edit forms ---------- */
+const FORMS = {
+  experience: { key:'experience', label:'work experience', fields:[
+    { name:'role', label:'Role', req:1, max:80, ph:'e.g. Web developer intern' },
+    { name:'org', label:'Organisation', req:1, max:80 },
+    { name:'period', label:'Period', max:40, ph:'e.g. 2025 – Present' },
+    { name:'desc', label:'What you did', area:1, max:400 } ] },
+  projects: { key:'projects', label:'project', fields:[
+    { name:'title', label:'Project name', req:1, max:80 },
+    { name:'desc', label:'Description', area:1, max:400 },
+    { name:'url', label:'Link', url:1, max:200, ph:'github.com/you/project' },
+    { name:'tags', label:'Tools used', max:150, hint:'Separate with commas, e.g. HTML, CSS, Firebase' } ] }
+};
+function openForm(title, fields, vals, onSave){
+  const f = $('form'); f.replaceChildren(); $('dTitle').textContent = title;
+  fields.forEach(x => {
+    const id = 'f_' + x.name;
+    const inp = x.area ? h('textarea', { id, name: x.name, rows: 4, maxlength: x.max }) : h('input', { id, name: x.name, type: 'text', maxlength: x.max, autocomplete: 'off' });
+    inp.placeholder = x.ph || ''; inp.value = vals[x.name] || '';
+    f.append(h('div', { class: 'fld' }, h('label', { for: id, text: x.label }), inp, x.hint ? h('p', { class: 'hint', text: x.hint }) : null));
+  });
+  f.append(h('p', { class: 'err', id: 'ferr', role: 'alert' }),
+    h('div', { class: 'acts' }, h('button', { type: 'button', class: 'btn', text: 'Cancel', onclick: () => $('dlg').close() }), h('button', { type: 'submit', class: 'btn primary', text: 'Save' })));
+  f.onsubmit = e => {
+    e.preventDefault(); const out = {};
+    for (const x of fields){
+      let v = f.elements[x.name].value.trim();
+      if (x.req && !v){ $('ferr').textContent = x.label + ' is required.'; return; }
+      if (x.url && v){ const u = safeUrl(v); if (!u){ $('ferr').textContent = 'Enter a valid link, like https://github.com/you.'; return; } v = u; }
+      out[x.name] = v;
+    }
+    onSave(out); $('dlg').close();
+  };
+  $('dlg').showModal();
+}
+function editProfile(){
+  openForm('Edit profile', [
+    { name:'name', label:'Full name', req:1, max:60 },
+    { name:'headline', label:'Headline', max:80, ph:'e.g. Student · Learning web development' },
+    { name:'location', label:'Location', max:60, ph:'City, Country' },
+    { name:'bio', label:'About you', area:1, max:500 },
+    { name:'skills', label:'Skills', max:300, hint:'Separate with commas, e.g. Python, HTML, Networking' },
+    { name:'github', label:'GitHub link', url:1, max:200 },
+    { name:'linkedin', label:'LinkedIn link', url:1, max:200 },
+    { name:'website', label:'Website', url:1, max:200 }
+  ], { ...P, skills: P.skills.join(', ') }, v => { Object.assign(P, v, { skills: tagList(v.skills) }); commit(); });
+}
+function editItem(kind, item){
+  const cfg = FORMS[kind], vals = item ? { ...item, tags: (item.tags || []).join(', ') } : {};
+  openForm((item ? 'Edit ' : 'Add ') + cfg.label, cfg.fields, vals, v => {
+    if (v.tags !== undefined) v.tags = tagList(v.tags);
+    if (item) Object.assign(item, v); else P[cfg.key].push({ id: uid(), ...v });
+    commit();
+  });
+}
+function del(kind, item){
+  if (confirm('Delete this ' + FORMS[kind].label + '?')){ P[FORMS[kind].key] = P[FORMS[kind].key].filter(x => x !== item); commit('Deleted'); }
+}
+
+/* ---------- drawing the page ---------- */
+function list(id, kind){
+  const items = P[FORMS[kind].key];
+  $(id).replaceChildren(...items.map(it => {
+    const name = it.role || it.title, url = safeUrl(it.url);
+    const body = kind === 'experience'
+      ? [h('h3', { text: it.role }), h('p', { class: 'meta', text: [it.org, it.period].filter(Boolean).join(' · ') }), it.desc ? h('p', { text: it.desc }) : null]
+      : [h('h3', {}, url ? h('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: it.title }) : it.title), it.desc ? h('p', { text: it.desc }) : null,
+         it.tags && it.tags.length ? h('div', { class: 'chips' }, it.tags.map(t => h('span', { class: 'chip', text: t }))) : null];
+    return h('li', { class: 'item' }, h('div', {}, body),
+      h('div', { class: 'iact' },
+        h('button', { type: 'button', class: 'ghost', text: 'Edit', 'aria-label': 'Edit ' + name, onclick: () => editItem(kind, it) }),
+        h('button', { type: 'button', class: 'ghost danger', text: 'Delete', 'aria-label': 'Delete ' + name, onclick: () => del(kind, it) })));
+  }));
+  $(id + 'Empty').hidden = items.length > 0;
+}
+function render(){
+  const nm = P.name;
+  $('avatar').textContent = (nm || user.email || '?').charAt(0).toUpperCase();
+  $('pName').textContent = nm || 'Add your name'; $('pName').classList.toggle('muted', !nm);
+  $('pHead').textContent = P.headline || 'Add a headline'; $('pHead').classList.toggle('muted', !P.headline);
+  $('pLoc').textContent = P.location; $('pLoc').hidden = !P.location;
+  $('pEmail').textContent = user.email || ''; $('verified').hidden = !user.emailVerified; $('verifyBtn').hidden = !!user.emailVerified || demo;
+  const ct = user.metadata && user.metadata.creationTime;
+  $('since').textContent = ct ? 'Member since ' + new Date(ct).toLocaleDateString(undefined, { month: 'short', year: 'numeric' }) : '';
+  $('links').replaceChildren(...[['GitHub', P.github], ['LinkedIn', P.linkedin], ['Website', P.website]].map(([t, u]) => { const s = safeUrl(u); return s ? h('a', { href: s, target: '_blank', rel: 'noopener noreferrer', text: t }) : null; }).filter(Boolean));
+
+  const checks = [['Add your name', !!P.name], ['Write a headline', !!P.headline], ['Add your location', !!P.location], ['Write a short bio', P.bio.length >= 20],
+    ['List at least 3 skills', P.skills.length >= 3], ['Add a GitHub, LinkedIn or website link', !!(P.github || P.linkedin || P.website)],
+    ['Add your work experience', P.experience.length > 0], ['Add a project', P.projects.length > 0]];
+  const pct = Math.round(checks.filter(c => c[1]).length / checks.length * 100), todo = checks.filter(c => !c[1]).slice(0, 3);
+  $('pct').textContent = pct + '%'; $('bar').style.width = pct + '%'; $('barwrap').setAttribute('aria-valuenow', pct);
+  $('todo').replaceChildren(...(todo.length ? todo.map(c => h('li', { text: c[0] })) : [h('li', { class: 'ok', text: 'Your profile is complete.' })]));
+
+  $('bio').textContent = P.bio; $('bio').hidden = !P.bio; $('bioEmpty').hidden = !!P.bio;
+  $('skills').replaceChildren(...P.skills.map(s => h('span', { class: 'chip', text: s })));
+  $('courseList').replaceChildren(...P.courses.map(c => {
+    const p = Math.max(0, Math.min(100, Math.round(+c.progress || 0)));
+    return h('li', { class: 'course' }, h('div', { class: 'ctop' }, h('b', { text: c.title }), h('span', { class: 'pc', text: p + '%' })),
+      h('div', { class: 'track', role: 'progressbar', 'aria-label': c.title + ' progress', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': p }, h('div', { class: 'fill', style: 'width:' + p + '%' })));
+  }));
+  $('courseEmpty').hidden = P.courses.length > 0;
+  list('expList', 'experience'); list('projList', 'projects');
+}
+
+/* ---------- buttons ---------- */
+$('editProfile').onclick = $('editAbout').onclick = editProfile;
+document.querySelectorAll('[data-add]').forEach(b => b.onclick = () => editItem(b.dataset.add));
+$('logout').onclick = async () => { if (fb) await fb.A.signOut(fb.auth); location.href = demo ? LOGIN_PAGE : LOGIN_PAGE; };
+$('verifyBtn').onclick = async () => { try { await fb.A.sendEmailVerification(user); toast('Verification email sent'); } catch (e) { toast('Could not send the email. Try again later.', true); } };
+$('resetPw').onclick = async () => {
+  if (demo) return toast('Preview mode: connect Firebase first', true);
+  try { await fb.A.sendPasswordResetEmail(fb.auth, user.email); toast('Password reset email sent'); } catch (e) { toast('Could not send the email. Try again later.', true); }
+};
+
+/* ---------- start ---------- */
+function show(){ $('loading').hidden = true; $('app').hidden = false; render(); }
+(async function init(){
+  if (!firebaseConfig.apiKey){
+    demo = true; user = { email: 'you@example.com', emailVerified: true };
+    P = { ...EMPTY(), name:'Your Name', headline:'Student · Learning to build for the web', location:'City, Country',
+      bio:'This is sample text. Click "Edit profile" to write your own bio.', skills:['Python','HTML & CSS','Problem solving'],
+      experience:[{ id:'e1', role:'Role title', org:'Organisation', period:'2025 – Present', desc:'Sample entry. Use Edit to change it.' }],
+      projects:[{ id:'p1', title:'Sample project', desc:'Sample entry. Add your own projects with Add.', url:'', tags:['HTML','CSS'] }],
+      courses:[{ title:'Cybersecurity', progress:35 }, { title:'Python Programming', progress:10 }] };
+    $('notice').textContent = 'Preview mode: Firebase is not connected, so this shows sample data and nothing is saved. Add your keys in the script at the bottom of profile.html.';
+    $('notice').hidden = false; show(); return;
+  }
+  try {
+    const [{ initializeApp }, A, F] = await Promise.all([import(SDK + 'firebase-app.js'), import(SDK + 'firebase-auth.js'), import(SDK + 'firebase-firestore.js')]);
+    const app = initializeApp(firebaseConfig);
+    fb = { A, F, auth: A.getAuth(app), db: F.getFirestore(app) };
+    A.onAuthStateChanged(fb.auth, async u => {
+      if (!u){ location.href = LOGIN_PAGE; return; }      // not logged in → go to login
+      user = u; P = EMPTY();
+      try { const s = await F.getDoc(F.doc(fb.db, 'users', u.uid)); if (s.exists()) P = { ...P, ...s.data() }; }
+      catch (e) { toast('Could not load your profile. Check your Firestore rules.', true); }
+      ['skills','experience','projects','courses'].forEach(k => { if (!Array.isArray(P[k])) P[k] = []; });
+      ['name','headline','location','bio','github','linkedin','website'].forEach(k => { if (typeof P[k] !== 'string') P[k] = ''; });
+      if (!P.name) P.name = u.displayName || '';
+      show();
+    });
+  } catch (e) {
+    $('loading').hidden = true; $('notice').textContent = 'Could not load Firebase. Check your internet connection, and open this page through a web server instead of file://.'; $('notice').hidden = false;
+  }
+})();
+</script>
+</body>
+</html>
