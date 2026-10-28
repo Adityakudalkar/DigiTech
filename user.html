@@ -6,116 +6,305 @@
 <title>My Profile — DigiTech Ecosystem</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* ===== Design tokens (same brand colours as index.html and login.html) ===== */
-:root{
-  --bg:#080810; --card:#101019; --field:#0b0b14; --band:#171722; --line:#2a2a38;
-  --text:#f2f2f6; --muted:#a3a3b5; --lime:#C6FF4D; --on-lime:#080810; --error:#ff9b9b;
-  --logo:url("__LOGO__"); /* your logo, embedded so no file path is needed */
+/* ===== Design tokens based on DigiTech Landing Theme ===== */
+:root {
+  --bg: #07060d;
+  --card: #0f0d1a;
+  --card-hover: #161326;
+  --field: #0b0914;
+  --band: #16122b;
+  --line: #262042;
+  --line-glow: #3d326b;
+  
+  --text: #f3f2f8;
+  --muted: #9c97b8;
+  
+  /* DigiTech Primary Colors */
+  --lime: #c6ff4d;
+  --on-lime: #07060d;
+  --purple-glow: #8b5cf6;
+  --purple-bright: #a855f7;
+  --purple-dark: #2e1065;
+  --error: #ff7676;
+  
+  --logo: url("__LOGO__"); 
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font:400 1rem/1.55 "Inter",system-ui,sans-serif;min-height:100vh}
-a{color:inherit}
-:focus-visible{outline:2px solid var(--lime);outline-offset:2px;border-radius:8px}
-[hidden]{display:none!important}
-.muted{color:var(--muted)}
 
-/* top bar */
-.top{display:flex;align-items:center;gap:22px;max-width:1080px;margin:0 auto;padding:16px}
-.logo{display:inline-block;background:#fff;border-radius:10px;padding:6px 10px}
-.logo i{display:block;height:28px;aspect-ratio:4.96;background:var(--logo) center/contain no-repeat}
-.top nav{display:flex;gap:4px;margin-right:auto}
-.top nav a{padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:.92rem;font-weight:500}
-.top nav a:hover{color:var(--text);background:var(--card)}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* layout */
-.wrap{display:grid;grid-template-columns:320px 1fr;gap:20px;max-width:1080px;margin:0 auto;padding:8px 16px 56px;align-items:start}
-.side{position:sticky;top:16px;display:grid;gap:16px}
-.main{display:grid;gap:16px;min-width:0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
-.card h2{font-size:1.05rem;font-weight:600}
-.head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-.notice{max-width:1048px;margin:0 auto 14px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--lime);border-radius:10px;background:var(--field);color:var(--muted);font-size:.88rem}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 400 1rem/1.6 "Plus Jakarta Sans", system-ui, sans-serif;
+  min-height: 100vh;
+  /* Ambient dark grid & purple neon glow background */
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(198, 255, 77, 0.08) 0%, transparent 40%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+  background-attachment: fixed;
+}
 
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--text);font:600 .9rem "Inter",sans-serif;cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s}
-.btn:hover{border-color:#4a4a5e;background:#171722}
-.btn.primary{background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
-.btn.primary:hover{background:#d4ff77;border-color:#d4ff77}
-.btn.sm{height:34px;padding:0 12px;font-size:.84rem}
-.btn.block{width:100%}
-.ghost{border:0;background:none;color:var(--muted);font:500 .84rem "Inter",sans-serif;cursor:pointer;padding:4px 8px;border-radius:6px}
-.ghost:hover{color:var(--text);background:var(--band)}
-.ghost.danger:hover{color:var(--error)}
-.link{border:0;background:none;color:var(--lime);font:500 .84rem "Inter",sans-serif;cursor:pointer;padding:0}
-.link:hover{text-decoration:underline}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 8px; }
+[hidden] { display: none !important; }
+.muted { color: var(--muted); }
 
-/* identity card */
-.ident{padding:0;overflow:hidden}
-.band{height:76px;background:var(--band)}
-.ident .in{padding:0 22px 22px;margin-top:-34px}
-.avatar{width:68px;height:68px;border-radius:50%;background:var(--lime);color:var(--on-lime);border:4px solid var(--card);display:grid;place-items:center;font-size:1.7rem;font-weight:700}
-.ident h1{font-size:1.35rem;font-weight:700;letter-spacing:-.01em;margin-top:10px;line-height:1.25}
-.ident .head2{color:var(--muted);font-size:.95rem}
-.small{color:var(--muted);font-size:.85rem;margin-top:8px;word-break:break-all}
-.badge{display:inline-block;margin-left:6px;padding:1px 8px;border:1px solid var(--line);border-radius:999px;font-size:.72rem;color:var(--lime)}
-.links{display:flex;flex-wrap:wrap;gap:6px 14px;margin:12px 0 16px}
-.links a{color:var(--lime);font-size:.88rem;text-decoration:none}
-.links a:hover{text-decoration:underline}
+/* Header / Glassmorphism Top Bar */
+.top {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  max-width: 1120px;
+  margin: 16px auto 24px;
+  padding: 10px 20px;
+  background: rgba(15, 13, 26, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+.logo { display: inline-block; background: #fff; border-radius: 10px; padding: 6px 12px; }
+.logo i { display: block; height: 26px; aspect-ratio: 4.96; background: var(--logo) center/contain no-repeat; }
 
-/* completeness */
-.meter{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
-.meter b{font-size:1.2rem}
-.track{height:8px;border-radius:99px;background:#1d1d29;overflow:hidden}
-.fill{height:100%;background:var(--lime);border-radius:99px;transition:width .4s}
-.todo{list-style:none;margin-top:12px;display:grid;gap:6px;font-size:.88rem;color:var(--muted)}
-.todo li::before{content:"+";color:var(--lime);font-weight:700;margin-right:8px}
-.todo li.ok::before{content:"";margin:0}
-.acct{display:grid;gap:8px}
+.top nav { display: flex; gap: 6px; margin-right: auto; }
+.top nav a {
+  padding: 8px 16px;
+  border-radius: 10px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.top nav a:hover { color: #fff; background: var(--band); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
 
-/* content */
-.bio{white-space:pre-line}
-.empty{color:var(--muted);font-size:.92rem}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.chips:empty{display:none}
-.chip{padding:4px 12px;border:1px solid var(--line);border-radius:999px;background:var(--field);font-size:.82rem}
-.list{list-style:none;display:grid;gap:0}
-.item{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-top:1px solid var(--line)}
-.item:first-child{border-top:0;padding-top:2px}
-.item h3{font-size:1rem;font-weight:600}
-.item h3 a{text-decoration:none}.item h3 a:hover{color:var(--lime)}
-.item p{font-size:.92rem;margin-top:4px}
-.item .meta{color:var(--muted);font-size:.86rem;margin-top:2px}
-.item .chips{margin-top:10px}
-.iact{display:flex;align-items:flex-start;gap:2px;flex:none}
-.course{padding:14px 0;border-top:1px solid var(--line)}
-.course:first-child{border-top:0;padding-top:2px}
-.ctop{display:flex;justify-content:space-between;margin-bottom:8px}
-.pc{color:var(--muted);font-size:.88rem}
+/* Layout Structure */
+.wrap { display: grid; grid-template-columns: 320px 1fr; gap: 24px; max-width: 1120px; margin: 0 auto; padding: 0 16px 60px; align-items: start; }
+.side { position: sticky; top: 20px; display: grid; gap: 20px; }
+.main { display: grid; gap: 20px; min-width: 0; }
 
-/* dialog form */
-dialog{margin:auto;width:min(520px,calc(100% - 32px));background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:24px}
-dialog::backdrop{background:rgba(0,0,0,.65)}
-dialog h2{font-size:1.2rem;margin-bottom:16px}
-.fld{margin-bottom:14px}
-label{display:block;font-size:.85rem;font-weight:500;margin-bottom:6px}
-input,textarea{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--field);color:var(--text);font:400 .96rem "Inter",sans-serif}
-textarea{resize:vertical}
-input:focus,textarea:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px rgba(198,255,77,.22)}
-.hint{color:var(--muted);font-size:.8rem;margin-top:6px}
-.err{color:var(--error);font-size:.88rem;min-height:1.3em}
-.acts{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);padding:11px 18px;border-radius:10px;background:var(--lime);color:var(--on-lime);font-weight:600;font-size:.9rem;opacity:0;pointer-events:none;transition:.25s;z-index:20}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-.toast.bad{background:var(--error)}
+/* Interactive Cards with Glassmorphism & Purple Accent border on hover */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.card:hover {
+  border-color: var(--line-glow);
+}
+.card h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
 
-@media(max-width:860px){.wrap{grid-template-columns:1fr}.side{position:static}.top nav{display:none}.top{justify-content:space-between}.logo{margin-right:auto}}
-@media(max-width:480px){.item{flex-direction:column;gap:6px}.card{padding:18px}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+/* Notice Banner */
+.notice {
+  max-width: 1080px;
+  margin: 0 auto 18px;
+  padding: 14px 18px;
+  border: 1px solid var(--purple-glow);
+  border-left: 4px solid var(--lime);
+  border-radius: 12px;
+  background: rgba(139, 92, 246, 0.08);
+  color: var(--text);
+  font-size: 0.9rem;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
+}
+
+/* Styled Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--band);
+  color: var(--text);
+  font: 600 0.9rem "Plus Jakarta Sans", sans-serif;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn:hover { border-color: var(--purple-glow); background: #1f1a38; box-shadow: 0 0 12px rgba(139, 92, 246, 0.25); }
+.btn.primary {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: var(--on-lime);
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(198, 255, 77, 0.25);
+}
+.btn.primary:hover {
+  background: #d4ff77;
+  border-color: #d4ff77;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(198, 255, 77, 0.4);
+}
+.btn.sm { height: 36px; padding: 0 14px; font-size: 0.85rem; border-radius: 10px; }
+.btn.block { width: 100%; }
+
+.ghost {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: 600 0.84rem "Plus Jakarta Sans", sans-serif;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: all 0.15s;
+}
+.ghost:hover { color: var(--text); background: var(--band); }
+.ghost.danger:hover { color: var(--error); background: rgba(255, 118, 118, 0.1); }
+.link { border: 0; background: none; color: var(--lime); font: 600 0.85rem "Plus Jakarta Sans", sans-serif; cursor: pointer; padding: 0; }
+.link:hover { text-decoration: underline; }
+
+/* Identity Profile Card */
+.ident { padding: 0; overflow: hidden; }
+.band {
+  height: 90px;
+  background: linear-gradient(135deg, var(--purple-dark) 0%, #1e1035 50%, #0d1222 100%);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+.band::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 80% 30%, rgba(198,255,77,0.15), transparent 60%);
+}
+.ident .in { padding: 0 24px 24px; margin-top: -38px; position: relative; z-index: 2; }
+.avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--lime) 0%, #9bc731 100%);
+  color: var(--on-lime);
+  border: 4px solid var(--card);
+  display: grid;
+  place-items: center;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+.ident h1 { font-family: "Space Grotesk", sans-serif; font-size: 1.45rem; font-weight: 700; letter-spacing: -0.01em; margin-top: 12px; line-height: 1.25; }
+.ident .head2 { color: var(--muted); font-size: 0.95rem; margin-top: 2px; }
+.small { color: var(--muted); font-size: 0.85rem; margin-top: 8px; word-break: break-all; }
+.badge { display: inline-block; margin-left: 6px; padding: 2px 8px; border: 1px solid var(--lime); border-radius: 999px; font-size: 0.72rem; font-weight: 600; color: var(--lime); background: rgba(198,255,77,0.08); }
+.links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 14px 0 18px; }
+.links a { color: var(--lime); font-size: 0.88rem; font-weight: 500; text-decoration: none; transition: color 0.15s; }
+.links a:hover { color: #d4ff77; text-decoration: underline; }
+
+/* Completeness Progress Bar */
+.meter { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.meter b { font-family: "Space Grotesk", sans-serif; font-size: 1.3rem; color: var(--lime); }
+.track { height: 10px; border-radius: 99px; background: var(--field); border: 1px solid var(--line); overflow: hidden; }
+.fill { height: 100%; background: linear-gradient(90deg, var(--purple-glow) 0%, var(--lime) 100%); border-radius: 99px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+.todo { list-style: none; margin-top: 14px; display: grid; gap: 8px; font-size: 0.88rem; color: var(--muted); }
+.todo li::before { content: "✦"; color: var(--lime); font-weight: 700; margin-right: 8px; }
+.todo li.ok::before { content: "✓"; color: var(--lime); margin-right: 8px; }
+.acct { display: grid; gap: 8px; }
+
+/* Dynamic Content Sections */
+.bio { white-space: pre-line; line-height: 1.65; color: #e2e0ed; }
+.empty { color: var(--muted); font-size: 0.92rem; font-style: italic; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chips:empty { display: none; }
+.chip { padding: 5px 14px; border: 1px solid var(--line-glow); border-radius: 999px; background: rgba(139, 92, 246, 0.08); color: var(--text); font-size: 0.82rem; font-weight: 500; }
+
+.list { list-style: none; display: grid; gap: 0; }
+.item { display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; border-top: 1px solid var(--line); }
+.item:first-child { border-top: 0; padding-top: 2px; }
+.item h3 { font-size: 1.05rem; font-weight: 600; font-family: "Space Grotesk", sans-serif; }
+.item h3 a { text-decoration: none; color: var(--text); transition: color 0.15s; }
+.item h3 a:hover { color: var(--lime); }
+.item p { font-size: 0.92rem; margin-top: 6px; color: #d0cde0; }
+.item .meta { color: var(--muted); font-size: 0.86rem; margin-top: 2px; font-weight: 500; }
+.item .chips { margin-top: 12px; }
+.iact { display: flex; align-items: flex-start; gap: 4px; flex: none; }
+
+.course { padding: 16px 0; border-top: 1px solid var(--line); }
+.course:first-child { border-top: 0; padding-top: 2px; }
+.ctop { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.pc { color: var(--lime); font-weight: 600; font-size: 0.88rem; font-family: "Space Grotesk", sans-serif; }
+
+/* Dialog Modal */
+dialog {
+  margin: auto;
+  width: min(540px, calc(100% - 32px));
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--line-glow);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 92, 246, 0.2);
+}
+dialog::backdrop { background: rgba(5, 4, 10, 0.82); backdrop-filter: blur(6px); }
+dialog h2 { font-family: "Space Grotesk", sans-serif; font-size: 1.3rem; margin-bottom: 20px; color: #fff; }
+.fld { margin-bottom: 16px; }
+label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--muted); }
+input, textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--field);
+  color: var(--text);
+  font: 400 0.96rem "Plus Jakarta Sans", sans-serif;
+  transition: all 0.2s ease;
+}
+textarea { resize: vertical; }
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--lime);
+  box-shadow: 0 0 0 3px rgba(198, 255, 77, 0.2);
+}
+.hint { color: var(--muted); font-size: 0.8rem; margin-top: 6px; }
+.err { color: var(--error); font-size: 0.88rem; min-height: 1.3em; margin-top: 4px; }
+.acts { display: flex; justify-content: flex-end; gap: 12px; margin-top: 12px; }
+
+/* Toast Notifications */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translate(-50%, 20px);
+  padding: 12px 22px;
+  border-radius: 12px;
+  background: var(--lime);
+  color: var(--on-lime);
+  font-weight: 700;
+  font-size: 0.92rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 20;
+  box-shadow: 0 10px 25px rgba(198, 255, 77, 0.3);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast.bad { background: var(--error); color: #fff; box-shadow: 0 10px 25px rgba(255, 118, 118, 0.3); }
+
+@media(max-width:860px){ .wrap{ grid-template-columns: 1fr; } .side{ position: static; } .top nav{ display: none; } .top{ justify-content: space-between; } .logo{ margin-right: auto; } }
+@media(max-width:480px){ .item{ flex-direction: column; gap: 8px; } .card{ padding: 20px; } }
+@media(prefers-reduced-motion:reduce){ *{ transition: none !important; } }
 </style>
 </head>
 <body>
+
 <header class="top">
   <a class="logo" href="index.html" aria-label="DigiTech Ecosystem home"><i role="img" aria-label="DigiTech"></i></a>
   <nav aria-label="Main"><a href="index.html">Home</a><a href="index.html#skills">Courses</a><a href="index.html#about">About</a></nav>
@@ -123,7 +312,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--lime);box-shadow:0 0 
 </header>
 
 <div class="notice" id="notice" hidden></div>
-<p class="muted" id="loading" style="text-align:center;padding:60px 0">Loading your profile…</p>
+<p class="muted" id="loading" style="text-align:center;padding:80px 0;font-size:1.05rem">Loading your profile…</p>
 
 <main class="wrap" id="app" hidden>
   <aside class="side">
@@ -184,20 +373,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--lime);box-shadow:0 0 
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-/* =====================================================================
-   SETUP — same Firebase project as login.html:
-   1. Paste the same firebaseConfig values below.
-   2. Firebase console → Build → Firestore Database → Create database.
-   3. Firestore → Rules → allow each user to read/write only their own document:
-        rules_version = '2';
-        service cloud.firestore {
-          match /databases/{db}/documents {
-            match /users/{uid} { allow read, write: if request.auth != null && request.auth.uid == uid; }
-          }
-        }
-   Open the page through a web server (e.g. VS Code "Live Server"), not file://.
-   Until you add the keys, the page runs in PREVIEW mode with sample data that is not saved.
-   ===================================================================== */
+/* Unchanged Javascript logic for functionality */
 const firebaseConfig = { apiKey: "", authDomain: "", projectId: "", appId: "" };
 const LOGIN_PAGE = "login.html";
 const SDK = "https://www.gstatic.com/firebasejs/10.14.1/";
@@ -207,7 +383,6 @@ let fb = null, user = null, P = null, demo = false;
 const EMPTY = () => ({ name:'', headline:'', location:'', bio:'', skills:[], github:'', linkedin:'', website:'', experience:[], projects:[], courses:[] });
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 
-/* Build DOM safely: user text is only ever set with textContent, never innerHTML */
 function h(tag, props = {}, ...kids){
   const e = document.createElement(tag);
   for (const [k, v] of Object.entries(props)){
@@ -217,7 +392,7 @@ function h(tag, props = {}, ...kids){
   kids.flat().forEach(c => c != null && e.append(c));
   return e;
 }
-/* Only allow http(s) links, so nobody can save a "javascript:" link */
+
 function safeUrl(v){
   v = (v || '').trim(); if (!v) return '';
   try { const u = new URL(/^https?:\/\//i.test(v) ? v : 'https://' + v); return /^https?:$/.test(u.protocol) && u.hostname.includes('.') ? u.href : ''; }
@@ -226,7 +401,6 @@ function safeUrl(v){
 const tagList = s => [...new Set(String(s).split(',').map(t => t.trim().slice(0, 30)).filter(Boolean))].slice(0, 15);
 let tt; function toast(t, bad){ const el = $('toast'); el.textContent = t; el.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(tt); tt = setTimeout(() => el.className = 'toast', 2800); }
 
-/* ---------- saving ---------- */
 async function commit(msg){
   render();
   if (demo) return toast('Preview mode: not saved');
@@ -234,7 +408,6 @@ async function commit(msg){
   catch (e) { toast("Couldn't save. Check your connection and Firestore rules.", true); }
 }
 
-/* ---------- edit forms ---------- */
 const FORMS = {
   experience: { key:'experience', label:'work experience', fields:[
     { name:'role', label:'Role', req:1, max:80, ph:'e.g. Web developer intern' },
@@ -247,6 +420,7 @@ const FORMS = {
     { name:'url', label:'Link', url:1, max:200, ph:'github.com/you/project' },
     { name:'tags', label:'Tools used', max:150, hint:'Separate with commas, e.g. HTML, CSS, Firebase' } ] }
 };
+
 function openForm(title, fields, vals, onSave){
   const f = $('form'); f.replaceChildren(); $('dTitle').textContent = title;
   fields.forEach(x => {
@@ -269,6 +443,7 @@ function openForm(title, fields, vals, onSave){
   };
   $('dlg').showModal();
 }
+
 function editProfile(){
   openForm('Edit profile', [
     { name:'name', label:'Full name', req:1, max:60 },
@@ -281,6 +456,7 @@ function editProfile(){
     { name:'website', label:'Website', url:1, max:200 }
   ], { ...P, skills: P.skills.join(', ') }, v => { Object.assign(P, v, { skills: tagList(v.skills) }); commit(); });
 }
+
 function editItem(kind, item){
   const cfg = FORMS[kind], vals = item ? { ...item, tags: (item.tags || []).join(', ') } : {};
   openForm((item ? 'Edit ' : 'Add ') + cfg.label, cfg.fields, vals, v => {
@@ -289,11 +465,11 @@ function editItem(kind, item){
     commit();
   });
 }
+
 function del(kind, item){
   if (confirm('Delete this ' + FORMS[kind].label + '?')){ P[FORMS[kind].key] = P[FORMS[kind].key].filter(x => x !== item); commit('Deleted'); }
 }
 
-/* ---------- drawing the page ---------- */
 function list(id, kind){
   const items = P[FORMS[kind].key];
   $(id).replaceChildren(...items.map(it => {
@@ -309,6 +485,7 @@ function list(id, kind){
   }));
   $(id + 'Empty').hidden = items.length > 0;
 }
+
 function render(){
   const nm = P.name;
   $('avatar').textContent = (nm || user.email || '?').charAt(0).toUpperCase();
@@ -338,7 +515,6 @@ function render(){
   list('expList', 'experience'); list('projList', 'projects');
 }
 
-/* ---------- buttons ---------- */
 $('editProfile').onclick = $('editAbout').onclick = editProfile;
 document.querySelectorAll('[data-add]').forEach(b => b.onclick = () => editItem(b.dataset.add));
 $('logout').onclick = async () => { if (fb) await fb.A.signOut(fb.auth); location.href = demo ? LOGIN_PAGE : LOGIN_PAGE; };
@@ -348,7 +524,6 @@ $('resetPw').onclick = async () => {
   try { await fb.A.sendPasswordResetEmail(fb.auth, user.email); toast('Password reset email sent'); } catch (e) { toast('Could not send the email. Try again later.', true); }
 };
 
-/* ---------- start ---------- */
 function show(){ $('loading').hidden = true; $('app').hidden = false; render(); }
 (async function init(){
   if (!firebaseConfig.apiKey){
@@ -366,7 +541,7 @@ function show(){ $('loading').hidden = true; $('app').hidden = false; render(); 
     const app = initializeApp(firebaseConfig);
     fb = { A, F, auth: A.getAuth(app), db: F.getFirestore(app) };
     A.onAuthStateChanged(fb.auth, async u => {
-      if (!u){ location.href = LOGIN_PAGE; return; }      // not logged in → go to login
+      if (!u){ location.href = LOGIN_PAGE; return; }
       user = u; P = EMPTY();
       try { const s = await F.getDoc(F.doc(fb.db, 'users', u.uid)); if (s.exists()) P = { ...P, ...s.data() }; }
       catch (e) { toast('Could not load your profile. Check your Firestore rules.', true); }
